@@ -1,0 +1,23 @@
+---
+- name: Verify
+  hosts: all
+  become: true
+  gather_facts: true
+  vars:
+    default_motd: "Welcome to {{ ansible_hostname }}"
+
+  tasks:
+    - name: Stat /etc/motd
+      ansible.builtin.stat:
+        path: /etc/motd
+      register: r_motd
+    
+    - name: Verify existence of /etc/motd
+      ansible.builtin.assert:
+        that:
+          - r_motd.stat.exists
+
+    - name: Read contents of /etc/motd
+      ansible.builtin.assert:
+        that:
+          - "{{ lookup('file', '/etc/motd') == default_motd }}"

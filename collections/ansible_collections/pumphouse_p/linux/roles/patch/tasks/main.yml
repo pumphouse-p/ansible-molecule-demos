@@ -1,0 +1,15 @@
+---
+- name: Ensure facts were gathered
+  ansible.builtin.assert:
+    that:
+      - ansible_os_family is defined
+
+- name: Handle RPM-based distros
+  ansible.builtin.include_tasks:
+    file: rpm.yml
+  when: ansible_os_family == 'RedHat'
+
+- name: Handle deb-based distros
+  ansible.builtin.include_tasks:
+    file: deb.yml
+  when: ansible_os_family == 'Debian'

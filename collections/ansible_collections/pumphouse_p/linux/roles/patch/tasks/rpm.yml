@@ -1,0 +1,5 @@
+---
+- name: Ensure packages are up to date
+  ansible.builtin.dnf:
+    name: "{{ patch_package_list }}"
+    state: latest

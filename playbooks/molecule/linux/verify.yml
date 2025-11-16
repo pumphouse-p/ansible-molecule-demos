@@ -1,0 +1,39 @@
+---
+- name: Verify webservers
+  hosts: webservers
+  gather_facts: true
+  tasks:
+    - name: Check required packages are installed
+      ansible.builtin.package_facts:
+        manager: auto
+
+    - name: Verify httpd is installed
+      ansible.builtin.assert:
+        that:
+          - "'httpd' in ansible_facts.packages"
+        fail_msg: "Apache (httpd) package not found"
+    
+    - name: Stat landing page
+      ansible.builtin.stat:
+        path: /var/www/html/index.html
+      register: r_index
+
+    - name: Verify landing page exists
+      ansible.builtin.assert:
+        that:
+          - r_index.stat.exists
+        fail_msg: "Apache landing page at /var/www/html/index.html does not exist"
+
+- name: Verify database servers
+  hosts: databases
+  gather_facts: true
+  tasks:
+    - name: Check required packages are installed
+      ansible.builtin.package_facts:
+        manager: auto
+
+    - name: Verify postgresql is installed
+      ansible.builtin.assert:
+        that:
+          - "'postgresql' in ansible_facts.packages"
+        fail_msg: "Postgresql package not found"

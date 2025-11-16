@@ -1,0 +1,25 @@
+---
+all:
+  children:
+    rpm:
+      hosts:
+        centos:
+          ansible_host: centos
+          container_image: quay.io/centos/centos:stream9
+          container_command: sleep infinity
+          container_privileged: true
+      vars:
+        required_packages:
+          - sudo
+        ansible_connection: podman
+    deb:
+      hosts:
+        debian:
+          ansible_host: debian
+          container_image: docker.io/library/python:trixie
+          container_command: sleep infinity
+          container_privileged: true
+      vars:
+        required_packages:
+          - sudo
+        ansible_connection: podman
