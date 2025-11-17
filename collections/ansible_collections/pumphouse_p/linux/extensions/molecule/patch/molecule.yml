@@ -1,10 +1,2 @@
 ---
-ansible:
-  executor:
-    args:
-      ansible_playbook:
-        - --inventory=${MOLECULE_SCENARIO_DIRECTORY}/../inventory.yml
-  cfg:
-    defaults:
-      deprecation_warnings: false
-      inventory: ${MOLECULE_SCENARIO_DIRECTORY}/../inventory.yml
+# Inherits settings from ../config.yml

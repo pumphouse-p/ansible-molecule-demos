@@ -3,14 +3,3 @@ scenario:
   test_sequence:
     - create
     - destroy
-
-ansible:
-  executor:
-    args:
-      ansible_playbook:
-        - --inventory=${MOLECULE_SCENARIO_DIRECTORY}/../inventory.yml
-  cfg:
-    defaults:
-      deprecation_warnings: false
-
-shared_state: true
