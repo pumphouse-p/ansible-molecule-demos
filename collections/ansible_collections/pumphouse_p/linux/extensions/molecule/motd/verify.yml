@@ -11,13 +11,15 @@
       ansible.builtin.stat:
         path: /etc/motd
       register: r_motd
-    
+
     - name: Verify existence of /etc/motd
       ansible.builtin.assert:
         that:
           - r_motd.stat.exists
+        fail_msg: /etc/motd not found on system
 
-    - name: Read contents of /etc/motd
+    - name: Verify correct contents of /etc/motd
       ansible.builtin.assert:
         that:
-          - "{{ lookup('file', '/etc/motd') == default_motd }}"
+          - r_motd.stat.checksum == "{{ default_motd | ansible.builtin.sha1 }}"
+        fail_msg: /etc/motd contents not correct
